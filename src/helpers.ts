@@ -1,3 +1,5 @@
+import { Components } from "./store/uiActions";
+
 export function Antiguedad(empleado, premio) {
   if (empleado.antiguedad > 0) {
     if (premio.tipo === "Porcentual") {
@@ -23,4 +25,8 @@ export function Deducciones(empleado, deduccion) {
   } else {
     empleado.salarioFinal -= deduccion.cantidad;
   }
+}
+
+export function drawComponent(component) {
+  return Components.set(component);
 }

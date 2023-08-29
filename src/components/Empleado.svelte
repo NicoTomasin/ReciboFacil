@@ -1,5 +1,6 @@
 <script>
   import { Deducciones, Premios } from "../store/Modificadores";
+
   import * as helpers from "../helpers";
 
   let nombre = "";
@@ -214,6 +215,14 @@
       <div class="card-actions justify-end">
         <button on:click={getRecibo} class="formButton">
           Generar Recibo
+        </button>
+      </div>
+      <div class="card-actions justify-end">
+        <button
+          on:click={() => helpers.drawComponent("Modificador")}
+          class="formButton"
+        >
+          Agregar Modificador
         </button>
       </div>
     </div>

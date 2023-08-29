@@ -1,5 +1,6 @@
 <script>
   import { Premios, Deducciones } from "../store/Modificadores";
+  import { drawComponent } from "../helpers";
   let nombre = "";
   let tipo = "Porcentual";
   let cantidad = 0;
@@ -50,6 +51,11 @@
       </div>
       <div class="card-actions justify-end">
         <button on:click={setModificador}>Agregar Deduccion</button>
+      </div>
+      <div class="card-actions justify-end">
+        <button on:click={() => drawComponent("Empleado")} class="formButton">
+          Volver a Empleado
+        </button>
       </div>
     </div>
   </div>
