@@ -24,7 +24,7 @@
       premiosFinales,
       salarioFinal: salarioBasico,
     };
-    premios.forEach((premio) => {
+    empleado.premiosFinales.forEach((premio) => {
       if (premio.tipo === "Porcentual") {
         empleado.salarioFinal =
           empleado.salarioFinal +
@@ -33,7 +33,7 @@
         empleado.salarioFinal = empleado.salarioFinal + premio.cantidad;
       }
     });
-    deducciones.forEach((deduccion) => {
+    empleado.deduccionesFinales.forEach((deduccion) => {
       if (deduccion.tipo === "Porcentual") {
         empleado.salarioFinal =
           empleado.salarioFinal -
@@ -42,7 +42,11 @@
         empleado.salarioFinal = empleado.salarioFinal - deduccion.cantidad;
       }
     });
+
     console.log(empleado);
+    deduccionesFinales = [];
+    premiosFinales = [];
+    return empleado;
   };
 </script>
 
