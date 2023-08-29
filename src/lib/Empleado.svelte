@@ -1,22 +1,28 @@
 <script>
-  import { Premios, Deducciones } from "../store/Modificadores";
+  import { Deducciones, Premios } from "../store/Modificadores";
+  import * as helpers from "../helpers";
+
   let nombre = "";
-  let antiguedad = "";
+  let antiguedad = 0;
   let salarioBasico = 0;
   let deducciones = [];
   let premios = [];
+  let empleado = {};
+
   Deducciones.subscribe((deduccionesSub) => {
     deducciones = deduccionesSub;
   });
+
   Premios.subscribe((premiosSub) => {
     premios = premiosSub;
   });
-  const getRecibo = () => {
+  function getRecibo() {
     let deduccionesFinales = deducciones.filter(
       (deduccion) => deduccion.estado === true
     );
     let premiosFinales = premios.filter((premio) => premio.estado === true);
-    let empleado = {
+
+    empleado = {
       nombre,
       antiguedad,
       salarioBasico,
@@ -24,30 +30,19 @@
       premiosFinales,
       salarioFinal: salarioBasico,
     };
-    empleado.premiosFinales.forEach((premio) => {
-      if (premio.tipo === "Porcentual") {
-        empleado.salarioFinal =
-          empleado.salarioFinal +
-          (empleado.salarioFinal * premio.cantidad) / 100;
-      } else {
-        empleado.salarioFinal = empleado.salarioFinal + premio.cantidad;
-      }
-    });
-    empleado.deduccionesFinales.forEach((deduccion) => {
-      if (deduccion.tipo === "Porcentual") {
-        empleado.salarioFinal =
-          empleado.salarioFinal -
-          (empleado.salarioFinal * deduccion.cantidad) / 100;
-      } else {
-        empleado.salarioFinal = empleado.salarioFinal - deduccion.cantidad;
-      }
+
+    premiosFinales.forEach((premio) => {
+      const nombrePremio = premio.nombre;
+      const applyLogic = helpers[nombrePremio] || helpers.Default;
+      applyLogic(empleado, premio);
     });
 
+    deduccionesFinales.forEach((deduccion) => {
+      helpers.Deducciones(empleado, deduccion);
+    });
     console.log(empleado);
-    deduccionesFinales = [];
-    premiosFinales = [];
     return empleado;
-  };
+  }
 </script>
 
 <div class="mx-auto max-w-screen-lg px-3">
