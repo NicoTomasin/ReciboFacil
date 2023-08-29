@@ -2,8 +2,6 @@
 
 Partiendo del template de [vite + svelte + ts](https://vitejs.dev/guide/) la idea es poder generar recibos de sueldo de una manera simple sin retener datos del usuario o los empleados. Además el proyecto esta ideado para conocer Svelte y su capacidad de manejo de estados
 
----
-
 ## Tecnologías
 
 - Svelte
@@ -11,8 +9,6 @@ Partiendo del template de [vite + svelte + ts](https://vitejs.dev/guide/) la ide
 - TypeScript
 - JavaScript
 - TailwindCSS
-
----
 
 ## ToDo:
 
