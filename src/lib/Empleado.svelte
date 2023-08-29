@@ -213,7 +213,7 @@
         </div>
       </div>
       <div class="card-actions justify-end">
-        <button on:click={getRecibo} class="btn btn-primary">
+        <button on:click={getRecibo} class="formButton">
           Generar Recibo
         </button>
       </div>
@@ -240,7 +240,7 @@
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(0, 186, 214, 0.3);
   }
-  button {
+  .formButton {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
