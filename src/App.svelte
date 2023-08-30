@@ -8,7 +8,7 @@
   });
 </script>
 
-<main class="flex min-h-screen flex-col items-center md:p-24 p-5">
+<main class="flex min-h-screen items-center md:p-24 p-5">
   <div class="mx-auto max-w-screen-lg px-3">
     {#if componentSelected === "Modificador"}
       <Modificador />

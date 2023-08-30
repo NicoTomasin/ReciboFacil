@@ -1,6 +1,6 @@
 <script>
   import { Deducciones, Premios } from "../store/Modificadores";
-
+  import Badge from "./Badge.svelte";
   import * as helpers from "../helpers";
 
   let nombre = "";
@@ -46,195 +46,122 @@
   }
 </script>
 
-<div class="mx-auto max-w-screen-lg px-3">
-  <div class="card bg-neutral text-neutral-content">
-    <div class="card-body items-center text-center">
-      <h2 class="card-title text-2xl">Agregar Empleado</h2>
-      <input bind:value={nombre} placeholder="Nombre" />
-      <input bind:value={antiguedad} type="number" placeholder="Antiguedad" />
-      <input
-        bind:value={salarioBasico}
-        type="number"
-        placeholder="Salario Basico"
-      />
-      <div class="bg-white activados">
-        <span class="badge badge-secondary">Modificadores activos</span>
-        <div class="p-1 grid gap-1 grid-cols-5">
-          {#each premios as premio}
-            {#if premio.estado === true}
-              <span
-                id="badge-dismiss-default"
-                class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-green-800 bg-green-200 rounded"
-              >
-                {premio.nombre}
-                <button
-                  type="button"
-                  class="inline-flex items-center p-1 ml-2 text-sm text-green-800 bg-transparent rounded-sm hover:bg-green-400 hover:text-green-900"
-                  data-dismiss-target="#badge-dismiss-default"
-                  aria-label="Remove"
-                  on:click={() => {
-                    premio.estado = false;
-                  }}
-                >
-                  <svg
-                    class="w-2 h-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span class="sr-only">Remove badge</span>
-                </button>
-              </span>
-            {/if}
-          {/each}
-          {#each deducciones as deduccion}
-            {#if deduccion.estado === true}
-              <span
-                id="badge-dismiss-default"
-                class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-red-800 bg-red-300 rounded"
-              >
-                {deduccion.nombre}
-                <button
-                  type="button"
-                  class="inline-flex items-center p-1 ml-2 text-sm text-red-800 bg-transparent rounded-sm hover:bg-red-400 hover:text-red-900"
-                  data-dismiss-target="#badge-dismiss-default"
-                  aria-label="Remove"
-                  on:click={() => {
-                    deduccion.estado = false;
-                  }}
-                >
-                  <svg
-                    class="w-2 h-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span class="sr-only">Remove badge</span>
-                </button>
-              </span>
-            {/if}
-          {/each}
-        </div>
+<div class="card grid grid-column-1 grid-row-6 gap-2 items-center text-center">
+  <div class="p-2">
+    <h2 class="card-title text-2xl">Empleado</h2>
+  </div>
+  <div class="p-2 flex items-center">
+    <span class="mr-2">Nombre</span>
+    <input
+      class="flex-grow text-center"
+      bind:value={nombre}
+      placeholder="Nombre"
+    />
+  </div>
+  <div class="p-2 flex items-center">
+    <span class="mr-2">Antiguedad</span>
+    <input
+      class="flex-grow text-center"
+      bind:value={antiguedad}
+      type="number"
+      placeholder="Antiguedad"
+    />
+  </div>
+  <div class="p-2 flex items-center">
+    <span class="mr-2">Salario Basico</span>
+    <input
+      class="flex-grow text-center"
+      bind:value={salarioBasico}
+      type="number"
+      placeholder="Salario Basico"
+    />
+  </div>
+
+  <div class="campo">
+    <h3>Modificadores activos</h3>
+    <div class="p-2">
+      {#each premios as premio}
+        {#if premio.estado === true}
+          <Badge
+            nombre={premio.nombre}
+            estadoCallback={() => {
+              premio.estado = false;
+            }}
+            estado={premio.estado}
+            color="green"
+          />
+        {/if}
+      {/each}
+      {#each deducciones as deduccion}
+        {#if deduccion.estado === true}
+          <Badge
+            nombre={deduccion.nombre}
+            estadoCallback={() => {
+              deduccion.estado = false;
+            }}
+            estado={deduccion.estado}
+            color="red"
+          />
+        {/if}
+      {/each}
+    </div>
+    <button
+      on:click={() => helpers.drawComponent("Modificador")}
+      class="boton-flotante"
+    >
+      <span>+</span>
+    </button>
+  </div>
+  <div>
+    <div class="desactivados">
+      <div class="p-2">
+        {#each premios as premio}
+          {#if premio.estado === false}
+            <Badge
+              nombre={premio.nombre}
+              estadoCallback={() => {
+                premio.estado = true;
+              }}
+              estado={premio.estado}
+              color="green"
+            />
+          {/if}
+        {/each}
+        {#each deducciones as deduccion}
+          {#if deduccion.estado === false}
+            <Badge
+              nombre={deduccion.nombre}
+              estadoCallback={() => {
+                deduccion.estado = true;
+              }}
+              estado={deduccion.estado}
+              color="red"
+            />
+          {/if}
+        {/each}
       </div>
-      <div class="desactivados">
-        <div class="p-1 grid gap-1 grid-cols-5">
-          {#each premios as premio}
-            {#if premio.estado === false}
-              <div>
-                <span
-                  class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-green-800 bg-green-200 rounded"
-                >
-                  {premio.nombre}
-                  <button
-                    type="button"
-                    class="inline-flex items-center p-1 ml-2 text-sm text-green-800 bg-transparent rounded-sm hover:bg-green-400 hover:text-green-900"
-                    data-dismiss-target="#badge-dismiss-default"
-                    aria-label="Remove"
-                    on:click={() => {
-                      premio.estado = true;
-                    }}
-                  >
-                    <svg
-                      class="w-2.5 h-2.5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                    <span class="sr-only">Remove badge</span>
-                  </button>
-                </span>
-              </div>
-            {/if}
-          {/each}
-          {#each deducciones as deduccion}
-            {#if deduccion.estado === false}
-              <div>
-                <span
-                  class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-red-800 bg-red-300 rounded"
-                >
-                  {deduccion.nombre}
-                  <button
-                    type="button"
-                    class="inline-flex items-center p-1 ml-2 text-sm text-red-800 bg-transparent rounded-sm hover:bg-red-400 hover:text-red-900"
-                    data-dismiss-target="#badge-dismiss-default"
-                    aria-label="Remove"
-                    on:click={() => {
-                      deduccion.estado = true;
-                    }}
-                  >
-                    <svg
-                      class="w-2.5 h-2.5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                    <span class="sr-only">Remove badge</span>
-                  </button>
-                </span>
-              </div>
-            {/if}
-          {/each}
-        </div>
-      </div>
-      <div class="card-actions justify-end">
-        <button on:click={getRecibo} class="formButton">
-          Generar Recibo
-        </button>
-      </div>
-      <div class="card-actions justify-end">
-        <button
-          on:click={() => helpers.drawComponent("Modificador")}
-          class="formButton"
-        >
-          Agregar Modificador
-        </button>
-      </div>
+    </div>
+  </div>
+  <div>
+    <div class="card-actions justify-end">
+      <button on:click={getRecibo} class="formButton"> Generar Recibo </button>
     </div>
   </div>
 </div>
 
 <style>
-  input,
-  .activados {
-    padding: 10px;
+  .campo {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-radius: 15px 2px 2px 15px;
+    padding: 1rem;
     margin: 10px 0;
     color: black;
+    background: rgba(0, 186, 214, 0.54);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    position: relative; /* Agregamos position: relative al div campo */
   }
   .card {
     border-radius: 15px;
@@ -255,5 +182,41 @@
     margin: 10px 0;
     color: black;
     background-color: #ccc;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(1, 109, 163);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 170, 255);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(20, 79, 108);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar {
+    width: 0.4rem;
+    height: 100%;
+  }
+  .boton-flotante {
+    position: sticky;
+    bottom: 0px;
+    left: 100vh;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .boton-flotante span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 </style>
