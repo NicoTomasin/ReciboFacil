@@ -1,19 +1,23 @@
 <script>
   export let nombre = "";
   export let estadoCallback;
-  export let color = "red";
+  export let color;
   export let estado = true;
+
+  let textColor = color === "green" ? "text-green-500" : "text-red-500";
+  let bgColor = color === "green" ? "bg-green-100" : "bg-red-100";
+  const truncate = (str) => {
+    return str.length > 10 ? str.substring(0, 10) + "..." : str;
+  };
 </script>
 
-<span>
-  <button
-    class={`m-1 text-${color}-800 bg-${color}-300 rounded inline-flex items-center p-1`}
-  >
-    {nombre}
+<span class="p-2">
+  <button class={"prueba " + textColor}>
+    {truncate(nombre)}
     <span class="ml-2">
       <button
         type="button"
-        class={`text-${color}-800 bg-transparent rounded hover:bg-${color}-400 hover:text-${color}-900`}
+        class={"bg-transparent rounded " + textColor + " " + bgColor}
         on:click={() => {
           estadoCallback();
         }}
@@ -55,3 +59,17 @@
     </span>
   </button>
 </span>
+
+<style>
+  .prueba {
+    background: #131419;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    padding: 5px 15px;
+    font-size: 18px;
+    margin-top: 15px;
+    box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.1),
+      2px 2px 6px rgba(0, 0, 0, 0.8);
+  }
+</style>

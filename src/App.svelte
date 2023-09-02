@@ -8,13 +8,9 @@
   });
 </script>
 
-<main class="flex min-h-screen items-center md:p-24 p-5">
-  <div class="mx-auto max-w-screen-lg px-3">
-    {#if componentSelected === "Modificador"}
-      <Modificador />
-    {/if}
-    {#if componentSelected === "Empleado"}
-      <Empleado />
-    {/if}
-  </div>
-</main>
+{#if componentSelected === "Modificador"}
+  <Modificador />
+{/if}
+{#if componentSelected === "Empleado"}
+  <Empleado />
+{/if}
