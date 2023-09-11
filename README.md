@@ -17,11 +17,11 @@ Partiendo del template de [vite + svelte + ts](https://vitejs.dev/guide/) la ide
 - [x] Consumir el estado de los modificadores para alterar las listas
 - [x] Calcular Salario Final correctamente
 - [x] Agregar router de componentes
-- [ ] Agregar validaciones a los formularios
 - [x] Agregar edición a datos ya cargados
 - [x] Mejorar estilos
+- [ ] Agregar validaciones a los formularios
 - [ ] Almacenar Datos en localStorage
 - [ ] Boton vaciar localStorage
-- [ ] Generar PDF con recibo imprimible
+- [x] Generar PDF con recibo imprimible
 - [ ] Generar CSV con datos de todos los empleados cargados
 - [ ] Generar config.json para poder guardar empleados y modificadores de manera local

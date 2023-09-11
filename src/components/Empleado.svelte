@@ -2,7 +2,11 @@
   import { Deducciones, Premios,Edicion} from "../store/Modificadores";
   import Badge from "./Badge.svelte";
   import * as helpers from "../helpers";
+  import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+// Registra las fuentes de pdfmake
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
   let nombre = "";
   let antiguedad;
   let salarioBasico;
@@ -17,6 +21,64 @@
   Premios.subscribe((premiosSub) => {
     premios = premiosSub;
   });
+  function generarPDF(empleado) {
+  const docDefinition = {
+    content: [
+      { text: 'Recibo de salario', style: 'header' },
+      { text: 'Nombre: ' + empleado.nombre, alignment: 'left' },
+      { text: 'Antiguedad: ' + empleado.antiguedad + ' años', alignment: 'left' },
+      { text: 'Salario Basico: $' + empleado.salarioBasico, alignment: 'left' },
+      { text: 'Salario Final: $' + empleado.salarioFinal, alignment: 'left' },
+      { text: 'Deducciones', style: 'subheader' },
+      {
+        ul: empleado.deduccionesFinales.map((deduccion) => {
+          return (
+            deduccion.nombre +
+            `: ${deduccion.tipo == "Porcentual" ? "% " : "$ "}`  +
+            deduccion.cantidad
+          );
+        }),
+      },
+      { text: 'Premios', style: 'subheader' },
+      {
+        ul: empleado.premiosFinales.map((premio) => {
+          return (
+            premio.nombre +
+         `: ${premio.tipo == "Porcentual" ? "% " : "$ "}` +
+            premio.cantidad
+            
+          );
+        }),
+      },
+    ],
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        alignment: 'center',
+        margin: [0, 0, 0, 20], // margen inferior
+      },
+    },
+  };
+
+  // Genera el PDF
+  const pdfDoc = pdfMake.createPdf(docDefinition);
+
+  // Genera el blob del PDF
+  pdfDoc.getBlob((blob) => {
+    // Crea una URL para el blob
+    const url = URL.createObjectURL(blob);
+
+    // Abre el PDF en una nueva pestaña
+    window.open(url, '_blank');
+
+    // Libera la URL del blob después de un tiempo (opcional)
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 1000);
+  });
+}
+
   function getRecibo() {
     let deduccionesFinales = deducciones.filter(
       (deduccion) => deduccion.estado === true
@@ -41,8 +103,7 @@
     deduccionesFinales.forEach((deduccion) => {
       helpers.Deducciones(empleado, deduccion);
     });
-    console.log(empleado);
-    return empleado;
+    return generarPDF(empleado);
   }
   const agregarModificador = ()=>{
     Edicion.update(() => [
