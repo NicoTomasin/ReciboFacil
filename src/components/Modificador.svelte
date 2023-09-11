@@ -1,6 +1,9 @@
 <script>
   import { Premios, Deducciones, Edicion } from "../store/Modificadores";
   import { drawComponent } from "../helpers";
+  import { get } from "svelte/store";
+    
+
 
   let nombre = "";
   let tipo = "Porcentual";
@@ -24,20 +27,45 @@
       return;
     }
     if (modificador === "Deduccion") {
-      Deducciones.update((deducciones) => [
+      // check if the name already exists
+      const deducciones = get(Deducciones);
+      const deduccion = deducciones.findIndex((deduccion) => deduccion.nombre === nombre);
+      if (deduccion !== -1) {
+       // remove index
+        deducciones.splice(deduccion, 1);
+       Deducciones.update((deducciones) => [
         ...deducciones,
         { nombre, tipo, cantidad, estado },
       ]);
+      } else {
+        Deducciones.update((deducciones) => [
+          ...deducciones,
+          { nombre, tipo, cantidad, estado },
+        ]);
+      }
     } else {
-      Premios.update((premios) => [
-        ...premios,
-        { nombre, tipo, cantidad, estado },
-      ]);
+      // check if the name already exists
+      const premios = get(Premios);
+      const premio = premios.findIndex((premio) => premio.nombre === nombre);
+      if (premio !== -1) {
+        // remove index
+        premios.splice(premio, 1);
+        Premios.update((premios) => [
+          ...premios,
+          { nombre, tipo, cantidad, estado },
+        ]);
+      } else {
+        Premios.update((premios) => [
+          ...premios,
+          { nombre, tipo, cantidad, estado },
+        ]);
+      }
     }
     nombre = "";
     tipo = "Porcentual";
     cantidad = 0;
     estado = true;
+    return drawComponent("Empleado")
   };
 </script>
 
