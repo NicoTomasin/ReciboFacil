@@ -18,8 +18,8 @@ Partiendo del template de [vite + svelte + ts](https://vitejs.dev/guide/) la ide
 - [x] Calcular Salario Final correctamente
 - [x] Agregar router de componentes
 - [ ] Agregar validaciones a los formularios
-- [ ] Agregar edición a datos ya cargados
-- [ ] Mejorar estilos
+- [x] Agregar edición a datos ya cargados
+- [x] Mejorar estilos
 - [ ] Almacenar Datos en localStorage
 - [ ] Boton vaciar localStorage
 - [ ] Generar PDF con recibo imprimible
