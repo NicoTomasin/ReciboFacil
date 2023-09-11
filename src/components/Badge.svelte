@@ -1,4 +1,8 @@
 <script>
+
+import * as helpers from "../helpers"; 
+import { Edicion, Premios, Deducciones} from "../store/Modificadores";
+import { get } from 'svelte/store'
   export let nombre = "";
   export let estadoCallback;
   export let color;
@@ -9,15 +13,32 @@
   const truncate = (str) => {
     return str.length > 10 ? str.substring(0, 10) + "..." : str;
   };
+  const editarModificador = () => {
+    let dataToEdit = undefined;
+    let modificador = "Premio"
+    let premios = get(Premios);
+    let deducciones = get(Deducciones);
+    dataToEdit = premios.find((element) => element.nombre === nombre);
+
+    if(dataToEdit === undefined) {
+      modificador = "Deduccion"
+      dataToEdit = deducciones.find((element) => element.nombre === nombre);
+    }
+    Edicion.update(() => [
+        { nombre:dataToEdit.nombre, tipo:dataToEdit.tipo, cantidad:dataToEdit.cantidad, estado: dataToEdit.estado, modificador },
+      ]);
+    return helpers.drawComponent("Modificador")
+  }
 </script>
 
 <span class="p-2">
-  <button class={"prueba " + textColor}>
+  <button class={"prueba " + textColor} on:click={() => {
+          editarModificador();
+        }}>
     {truncate(nombre)}
     <span class="ml-2">
       <button
-        type="button"
-        class={"bg-transparent rounded " + textColor + " " + bgColor}
+        class={"w-5 h-5 bg-transparent rounded " + textColor + " " + bgColor}
         on:click={() => {
           estadoCallback();
         }}

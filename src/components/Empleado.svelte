@@ -1,5 +1,5 @@
 <script>
-  import { Deducciones, Premios } from "../store/Modificadores";
+  import { Deducciones, Premios,Edicion} from "../store/Modificadores";
   import Badge from "./Badge.svelte";
   import * as helpers from "../helpers";
 
@@ -43,6 +43,12 @@
     });
     console.log(empleado);
     return empleado;
+  }
+  const agregarModificador = ()=>{
+    Edicion.update(() => [
+        { nombre:"", tipo:"", cantidad:0, estado: true, modificador:"" },
+      ]);
+    return helpers.drawComponent("Modificador")
   }
 </script>
 
@@ -115,7 +121,7 @@
       {/each}
     </div>
     <div class="inputBox">
-      <button on:click={() => helpers.drawComponent("Modificador")}
+      <button on:click={agregarModificador}
         >Agregar Modificadores</button
       >
     </div>

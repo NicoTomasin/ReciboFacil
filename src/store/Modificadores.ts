@@ -22,3 +22,12 @@ export const Deducciones = writable([
     tipo: "Porcentual",
   },
 ]);
+export const Edicion = writable([
+  {
+    cantidad: 0,
+    estado: true,
+    nombre: "",
+    tipo: "",
+    modificador: "",
+  }]
+);

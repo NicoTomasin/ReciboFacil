@@ -1,11 +1,19 @@
 <script>
-  import { Premios, Deducciones } from "../store/Modificadores";
+  import { Premios, Deducciones, Edicion } from "../store/Modificadores";
   import { drawComponent } from "../helpers";
+
   let nombre = "";
   let tipo = "Porcentual";
   let cantidad = 0;
   let estado = true;
   let modificador = "Deduccion";
+  Edicion.subscribe((editar) => {
+    nombre = editar[0].nombre;
+    tipo = editar[0].tipo;
+    cantidad = editar[0].cantidad;
+    estado =  editar[0].estado;
+    modificador =  editar[0].modificador;
+  });
   const setModificador = () => {
     if (nombre === "") {
       alert("El nombre no puede estar vacio");
